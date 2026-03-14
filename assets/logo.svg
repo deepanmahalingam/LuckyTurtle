@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Lucky Turtle Logo - Lottery-themed turtle with hexagonal shell -->
+  <defs>
+    <linearGradient id="shellGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981"/>
+      <stop offset="50%" style="stop-color:#059669"/>
+      <stop offset="100%" style="stop-color:#047857"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FBBF24"/>
+      <stop offset="100%" style="stop-color:#F59E0B"/>
+    </linearGradient>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#34D399"/>
+      <stop offset="100%" style="stop-color:#10B981"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Body shadow -->
+  <ellipse cx="100" cy="125" rx="55" ry="20" fill="#0F172A" opacity="0.1"/>
+
+  <!-- Tail -->
+  <path d="M 38 115 Q 20 118 15 110 Q 12 105 18 108 Q 25 110 38 108" fill="url(#bodyGrad)" stroke="#059669" stroke-width="1"/>
+
+  <!-- Back left leg -->
+  <ellipse cx="55" cy="125" rx="12" ry="8" fill="url(#bodyGrad)" stroke="#059669" stroke-width="1.5" transform="rotate(-15, 55, 125)"/>
+  <!-- Back right leg -->
+  <ellipse cx="145" cy="125" rx="12" ry="8" fill="url(#bodyGrad)" stroke="#059669" stroke-width="1.5" transform="rotate(15, 145, 125)"/>
+  <!-- Front left leg -->
+  <ellipse cx="60" cy="105" rx="14" ry="8" fill="url(#bodyGrad)" stroke="#059669" stroke-width="1.5" transform="rotate(-25, 60, 105)"/>
+  <!-- Front right leg -->
+  <ellipse cx="140" cy="105" rx="14" ry="8" fill="url(#bodyGrad)" stroke="#059669" stroke-width="1.5" transform="rotate(25, 140, 105)"/>
+
+  <!-- Shell base -->
+  <ellipse cx="100" cy="100" rx="50" ry="38" fill="url(#shellGrad)" stroke="#047857" stroke-width="2"/>
+
+  <!-- Shell hexagonal pattern -->
+  <path d="M 100 65 L 120 75 L 120 92 L 100 102 L 80 92 L 80 75 Z" fill="none" stroke="#047857" stroke-width="1.5" opacity="0.6"/>
+  <path d="M 100 102 L 120 92 L 135 102 L 130 118 L 110 122 L 100 112 Z" fill="none" stroke="#047857" stroke-width="1.2" opacity="0.5"/>
+  <path d="M 100 102 L 80 92 L 65 102 L 70 118 L 90 122 L 100 112 Z" fill="none" stroke="#047857" stroke-width="1.2" opacity="0.5"/>
+  <path d="M 120 75 L 140 82 L 140 98 L 135 102 L 120 92 Z" fill="none" stroke="#047857" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 80 75 L 60 82 L 60 98 L 65 102 L 80 92 Z" fill="none" stroke="#047857" stroke-width="1.2" opacity="0.4"/>
+
+  <!-- Lucky numbers on shell -->
+  <text x="100" y="88" text-anchor="middle" fill="#FBBF24" font-family="Arial, sans-serif" font-size="14" font-weight="bold" filter="url(#glow)">6</text>
+  <text x="73" y="102" text-anchor="middle" fill="#FBBF24" font-family="Arial, sans-serif" font-size="9" font-weight="bold" opacity="0.8">49</text>
+  <text x="127" y="102" text-anchor="middle" fill="#FBBF24" font-family="Arial, sans-serif" font-size="9" font-weight="bold" opacity="0.8">7</text>
+  <text x="90" y="118" text-anchor="middle" fill="#FBBF24" font-family="Arial, sans-serif" font-size="8" opacity="0.6">13</text>
+  <text x="112" y="118" text-anchor="middle" fill="#FBBF24" font-family="Arial, sans-serif" font-size="8" opacity="0.6">21</text>
+
+  <!-- Shell shine -->
+  <ellipse cx="90" cy="78" rx="15" ry="8" fill="white" opacity="0.15" transform="rotate(-20, 90, 78)"/>
+
+  <!-- Head -->
+  <ellipse cx="155" cy="95" rx="18" ry="15" fill="url(#bodyGrad)" stroke="#059669" stroke-width="1.5"/>
+  <!-- Eye -->
+  <circle cx="163" cy="90" r="4" fill="white"/>
+  <circle cx="164.5" cy="89.5" r="2.2" fill="#0F172A"/>
+  <circle cx="165.5" cy="88.5" r="0.8" fill="white"/>
+  <!-- Smile -->
+  <path d="M 158 98 Q 163 103 168 98" fill="none" stroke="#047857" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- Four-leaf clover above head -->
+  <g transform="translate(158, 68) scale(0.6)">
+    <circle cx="0" cy="-8" r="6" fill="#FBBF24"/>
+    <circle cx="8" cy="0" r="6" fill="#FBBF24"/>
+    <circle cx="0" cy="8" r="6" fill="#FBBF24"/>
+    <circle cx="-8" cy="0" r="6" fill="#FBBF24"/>
+    <circle cx="0" cy="0" r="3" fill="#F59E0B"/>
+    <line x1="0" y1="8" x2="0" y2="22" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Sparkle accents -->
+  <g fill="#FBBF24" opacity="0.7">
+    <polygon points="30,60 32,55 34,60 32,65" transform="rotate(45, 32, 60)"/>
+    <polygon points="170,55 172,50 174,55 172,60" transform="rotate(20, 172, 55)"/>
+    <polygon points="45,75 47,71 49,75 47,79" transform="rotate(-15, 47, 75)"/>
+  </g>
+
+  <!-- Text: LUCKY TURTLE -->
+  <text x="100" y="158" text-anchor="middle" fill="#0F172A" font-family="Arial, sans-serif" font-size="16" font-weight="800" letter-spacing="2">LUCKY TURTLE</text>
+  <text x="100" y="173" text-anchor="middle" fill="#059669" font-family="Arial, sans-serif" font-size="8" letter-spacing="4">LOTTO 6 AUS 49</text>
+
+  <!-- Decorative dots -->
+  <circle cx="45" cy="160" r="2" fill="#FBBF24" opacity="0.5"/>
+  <circle cx="155" cy="160" r="2" fill="#FBBF24" opacity="0.5"/>
+</svg>

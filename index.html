@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lucky Turtle - AI-powered Lotto 6 aus 49 number prediction using machine learning and 70+ years of historical data">
+  <meta name="theme-color" content="#10B981">
+  <title>Lucky Turtle | AI Lotto 6 aus 49 Predictor</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <img src="assets/logo.svg" alt="Loading" class="turtle-loader">
+    <p class="loading-message" id="loading-message">Initializing Lucky Turtle...</p>
+    <div class="loading-progress">
+      <div class="loading-progress-bar"></div>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <a href="#" class="header-brand" onclick="return false;">
+        <img src="assets/logo.svg" alt="Lucky Turtle" class="header-logo">
+        <div>
+          <div class="header-title">Lucky Turtle</div>
+          <div class="header-subtitle">Lotto 6 aus 49</div>
+        </div>
+      </a>
+      <div class="header-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+          <span class="theme-toggle-icon sun">&#9728;</span>
+          <span class="theme-toggle-icon moon">&#9790;</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="app-nav" id="app-nav">
+      <button class="nav-tab active" data-tab="dashboard">
+        <span class="nav-tab-icon">&#127968;</span>
+        Dashboard
+      </button>
+      <button class="nav-tab" data-tab="predict">
+        <span class="nav-tab-icon">&#129504;</span>
+        AI Predict
+      </button>
+      <button class="nav-tab" data-tab="analyze">
+        <span class="nav-tab-icon">&#128202;</span>
+        Analytics
+      </button>
+      <button class="nav-tab" data-tab="picker">
+        <span class="nav-tab-icon">&#127922;</span>
+        Number Picker
+      </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="app-main">
+
+      <!-- ==================== DASHBOARD ==================== -->
+      <section id="section-dashboard" class="app-section active">
+        <!-- Hero -->
+        <div class="hero">
+          <img src="assets/logo.svg" alt="Lucky Turtle" class="hero-logo">
+          <h1 class="hero-heading">Lucky Turtle</h1>
+          <p class="hero-text">AI-powered Lotto 6 aus 49 predictions using machine learning algorithms trained on 70+ years of historical draw data.</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon green">&#127922;</div>
+            <div>
+              <div class="stat-label">Total Draws</div>
+              <div class="stat-value" id="stat-total-draws">--</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon amber">&#128197;</div>
+            <div>
+              <div class="stat-label">Last Draw</div>
+              <div class="stat-value" id="stat-last-draw">--</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue">&#128293;</div>
+            <div>
+              <div class="stat-label">Hottest Number</div>
+              <div class="stat-value" id="stat-hottest">--</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">&#10052;</div>
+            <div>
+              <div class="stat-label">Coldest Number</div>
+              <div class="stat-value" id="stat-coldest">--</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Latest Draw -->
+        <div class="card card-glass" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <h2 class="card-title">&#127917; Latest Draw</h2>
+            <span class="card-badge badge-primary" id="latest-draw-date">--</span>
+          </div>
+          <div class="balls-container" id="latest-draw-balls">
+            <div class="lottery-ball ball-green shimmer" style="width:64px;height:64px;"></div>
+            <div class="lottery-ball ball-green shimmer" style="width:64px;height:64px;"></div>
+            <div class="lottery-ball ball-green shimmer" style="width:64px;height:64px;"></div>
+            <div class="lottery-ball ball-green shimmer" style="width:64px;height:64px;"></div>
+            <div class="lottery-ball ball-green shimmer" style="width:64px;height:64px;"></div>
+            <div class="lottery-ball ball-green shimmer" style="width:64px;height:64px;"></div>
+          </div>
+        </div>
+
+        <!-- Quick AI Prediction -->
+        <div class="card card-glass">
+          <div class="card-header">
+            <h2 class="card-title">&#129302; AI Quick Prediction</h2>
+            <span class="card-badge badge-accent">Ensemble</span>
+          </div>
+          <div class="results-panel" id="dashboard-prediction">
+            <div class="results-placeholder">
+              <span class="icon">&#129504;</span>
+              Click below to generate an AI prediction
+            </div>
+          </div>
+          <div style="text-align: center; margin-top: var(--space-lg);">
+            <button class="btn btn-primary" id="btn-quick-predict">
+              &#9889; Quick Predict
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== AI PREDICT ==================== -->
+      <section id="section-predict" class="app-section">
+        <div class="section-header">
+          <h2 class="section-title">&#129504; AI Prediction Engine</h2>
+          <p class="section-desc">Select algorithms and generate predictions powered by machine learning.</p>
+        </div>
+
+        <div class="predict-layout">
+          <div>
+            <!-- Algorithm Selector -->
+            <div class="card" style="margin-bottom: var(--space-xl);">
+              <div class="card-header">
+                <h3 class="card-title">&#9881; Algorithms</h3>
+                <button class="btn btn-secondary" id="btn-select-all" style="font-size:0.75rem;">Select All</button>
+              </div>
+              <div class="algorithm-selector" id="algo-selector">
+                <div>
+                  <input type="checkbox" class="algo-checkbox" id="algo-frequency" value="frequency" checked>
+                  <label class="algo-label" for="algo-frequency">
+                    <span class="algo-indicator">&#10003;</span>
+                    <div>
+                      Frequency Analysis
+                      <div class="algo-info">Hot & cold numbers</div>
+                    </div>
+                  </label>
+                </div>
+                <div>
+                  <input type="checkbox" class="algo-checkbox" id="algo-neural" value="neural" checked>
+                  <label class="algo-label" for="algo-neural">
+                    <span class="algo-indicator">&#10003;</span>
+                    <div>
+                      Neural Network
+                      <div class="algo-info">Deep learning patterns</div>
+                    </div>
+                  </label>
+                </div>
+                <div>
+                  <input type="checkbox" class="algo-checkbox" id="algo-pattern" value="pattern" checked>
+                  <label class="algo-label" for="algo-pattern">
+                    <span class="algo-indicator">&#10003;</span>
+                    <div>
+                      Pattern Analysis
+                      <div class="algo-info">Statistical co-occurrence</div>
+                    </div>
+                  </label>
+                </div>
+                <div>
+                  <input type="checkbox" class="algo-checkbox" id="algo-gap" value="gap" checked>
+                  <label class="algo-label" for="algo-gap">
+                    <span class="algo-indicator">&#10003;</span>
+                    <div>
+                      Gap Analysis
+                      <div class="algo-info">Overdue number detection</div>
+                    </div>
+                  </label>
+                </div>
+                <div>
+                  <input type="checkbox" class="algo-checkbox" id="algo-bayesian" value="bayesian" checked>
+                  <label class="algo-label" for="algo-bayesian">
+                    <span class="algo-indicator">&#10003;</span>
+                    <div>
+                      Bayesian Model
+                      <div class="algo-info">Probability estimation</div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Generate Button -->
+            <button class="btn-generate" id="btn-generate">
+              <div class="spinner"></div>
+              <span class="btn-text">&#9889; Generate AI Prediction</span>
+            </button>
+
+            <!-- Results -->
+            <div class="card" style="margin-top: var(--space-xl);">
+              <div class="card-header">
+                <h3 class="card-title">&#127919; Prediction Result</h3>
+              </div>
+              <div class="results-panel" id="predict-results">
+                <div class="results-placeholder">
+                  <span class="icon">&#127922;</span>
+                  Select algorithms and click Generate
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <!-- Confidence Meters -->
+            <div class="card" style="margin-bottom: var(--space-xl);">
+              <div class="card-header">
+                <h3 class="card-title">&#128200; Algorithm Confidence</h3>
+              </div>
+              <div class="confidence-grid" id="confidence-grid">
+                <div class="confidence-item">
+                  <span class="confidence-label">Frequency</span>
+                  <div class="confidence-bar"><div class="confidence-fill" id="conf-frequency"></div></div>
+                  <span class="confidence-value" id="conf-val-frequency">--%</span>
+                </div>
+                <div class="confidence-item">
+                  <span class="confidence-label">Neural Net</span>
+                  <div class="confidence-bar"><div class="confidence-fill" id="conf-neural"></div></div>
+                  <span class="confidence-value" id="conf-val-neural">--%</span>
+                </div>
+                <div class="confidence-item">
+                  <span class="confidence-label">Pattern</span>
+                  <div class="confidence-bar"><div class="confidence-fill" id="conf-pattern"></div></div>
+                  <span class="confidence-value" id="conf-val-pattern">--%</span>
+                </div>
+                <div class="confidence-item">
+                  <span class="confidence-label">Gap</span>
+                  <div class="confidence-bar"><div class="confidence-fill" id="conf-gap"></div></div>
+                  <span class="confidence-value" id="conf-val-gap">--%</span>
+                </div>
+                <div class="confidence-item">
+                  <span class="confidence-label">Bayesian</span>
+                  <div class="confidence-bar"><div class="confidence-fill" id="conf-bayesian"></div></div>
+                  <span class="confidence-value" id="conf-val-bayesian">--%</span>
+                </div>
+                <div class="confidence-item" style="border-top: 2px solid var(--color-border); padding-top: var(--space-md);">
+                  <span class="confidence-label" style="color: var(--color-primary); font-weight: 700;">Ensemble</span>
+                  <div class="confidence-bar"><div class="confidence-fill" id="conf-ensemble" style="background: linear-gradient(90deg, var(--color-primary), var(--color-accent));"></div></div>
+                  <span class="confidence-value" id="conf-val-ensemble" style="color: var(--color-accent);">--%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Prediction History -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">&#128214; Session History</h3>
+                <button class="btn btn-secondary" id="btn-clear-history" style="font-size:0.75rem;">Clear</button>
+              </div>
+              <div class="prediction-history" id="prediction-history">
+                <div class="empty-state">
+                  <div class="empty-state-icon">&#128196;</div>
+                  <p>No predictions yet this session</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== ANALYTICS ==================== -->
+      <section id="section-analyze" class="app-section">
+        <div class="section-header">
+          <h2 class="section-title">&#128202; Data Analytics</h2>
+          <p class="section-desc">Explore patterns in 70+ years of Lotto 6 aus 49 draw history.</p>
+        </div>
+
+        <!-- Heatmap -->
+        <div class="card" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <h3 class="card-title">&#128293; Number Frequency Heatmap</h3>
+            <div class="time-range-selector">
+              <button class="time-btn active" data-range="all">All Time</button>
+              <button class="time-btn" data-range="500">Last 500</button>
+              <button class="time-btn" data-range="100">Last 100</button>
+              <button class="time-btn" data-range="50">Last 50</button>
+            </div>
+          </div>
+          <div class="heatmap-grid" id="heatmap-grid"></div>
+          <div class="heatmap-legend">
+            <span>Less frequent</span>
+            <div class="heatmap-legend-bar"></div>
+            <span>More frequent</span>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">&#128200; Frequency Trend</h3>
+            </div>
+            <div class="chart-container">
+              <canvas id="chart-frequency"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">&#9203; Gap Analysis</h3>
+            </div>
+            <div class="chart-container">
+              <canvas id="chart-gaps"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">&#128269; Number Distribution</h3>
+            </div>
+            <div class="chart-container">
+              <canvas id="chart-distribution"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">&#128336; Draws Per Year</h3>
+            </div>
+            <div class="chart-container">
+              <canvas id="chart-yearly"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== NUMBER PICKER ==================== -->
+      <section id="section-picker" class="app-section">
+        <div class="section-header">
+          <h2 class="section-title">&#127922; Number Picker</h2>
+          <p class="section-desc">Pick your lucky numbers or let the AI generate them for you.</p>
+        </div>
+
+        <div class="card" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <h3 class="card-title">&#9997; Select 6 Numbers</h3>
+          </div>
+          <div class="picker-counter">
+            Selected: <strong id="picker-count">0</strong> / 6
+          </div>
+          <div class="picker-grid" id="picker-grid"></div>
+          <div class="btn-group">
+            <button class="btn btn-primary" id="btn-check-numbers" disabled>&#128269; Check Numbers</button>
+            <button class="btn btn-secondary" id="btn-clear-picker">&#128260; Clear</button>
+            <button class="btn btn-accent lucky-btn" id="btn-lucky-pick">&#127808; Lucky Pick</button>
+          </div>
+        </div>
+
+        <!-- Match Results -->
+        <div class="card" id="match-results-card" style="display: none;">
+          <div class="card-header">
+            <h3 class="card-title">&#128270; Analysis Results</h3>
+          </div>
+          <div id="match-results"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Lucky Turtle &copy; 2024 &mdash; Built with &#129504; AI &amp; &#128154; JavaScript</p>
+      <p class="footer-disclaimer">
+        Disclaimer: Lottery predictions are for entertainment purposes only.
+        Past results do not guarantee future outcomes. Please play responsibly.
+      </p>
+    </footer>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Application Scripts -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
