@@ -85,18 +85,18 @@ export class TurtleShellAlgorithm {
    * Main prediction method - runs all 7 layers and combines via consensus
    */
   predict() {
-    const last5 = this.draws.slice(-5);
-    const last10 = this.draws.slice(-10);
+    const last9 = this.draws.slice(-9);
+    const last18 = this.draws.slice(-18);
 
     // Each layer returns a Map<number, score> for numbers 1-49
     const layerResults = [
-      { name: 'Shell Sectors', scores: this.layer1_shellSectors(last5), icon: '🛡️' },
-      { name: 'Ripple Propagation', scores: this.layer2_ripplePropagation(last5), icon: '🌊' },
-      { name: 'Momentum Vectors', scores: this.layer3_momentumVectors(last10), icon: '🚀' },
-      { name: 'Delta Convergence', scores: this.layer4_deltaConvergence(last5), icon: '📐' },
-      { name: 'Magnetic Pairs', scores: this.layer5_magneticPairs(last5), icon: '🧲' },
-      { name: 'Golden Spiral', scores: this.layer6_goldenSpiral(last5), icon: '🌀' },
-      { name: 'Cross-Draw Chain', scores: this.layer7_crossDrawTransition(last5), icon: '🔗' },
+      { name: 'Shell Sectors', scores: this.layer1_shellSectors(last9), icon: '🛡️' },
+      { name: 'Ripple Propagation', scores: this.layer2_ripplePropagation(last9), icon: '🌊' },
+      { name: 'Momentum Vectors', scores: this.layer3_momentumVectors(last18), icon: '🚀' },
+      { name: 'Delta Convergence', scores: this.layer4_deltaConvergence(last9), icon: '📐' },
+      { name: 'Magnetic Pairs', scores: this.layer5_magneticPairs(last9), icon: '🧲' },
+      { name: 'Golden Spiral', scores: this.layer6_goldenSpiral(last9), icon: '🌀' },
+      { name: 'Cross-Draw Chain', scores: this.layer7_crossDrawTransition(last9), icon: '🔗' },
     ];
 
     // Normalize each layer's scores to [0, 1]
@@ -153,7 +153,7 @@ export class TurtleShellAlgorithm {
     const confidence = Math.round(75 + 20 * (1 / (1 + Math.exp(-8 * (convergenceFactor - 0.35)))));
 
     // Build detailed pattern analysis for UI
-    const patternDetails = this.buildPatternDetails(last5, selected, layerResults);
+    const patternDetails = this.buildPatternDetails(last9, selected, layerResults);
 
     return {
       numbers: selected,
@@ -161,7 +161,7 @@ export class TurtleShellAlgorithm {
       algorithm: 'turtle-shell',
       layerAgreement,
       patternDetails,
-      last5Draws: last5.map(d => ({
+      lastDraws: last9.map(d => ({
         date: d.date,
         numbers: d.numbers,
       })),

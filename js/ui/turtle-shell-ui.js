@@ -10,7 +10,7 @@ export class TurtleShellUI {
   static init(draws) {
     TurtleShellUI.algorithm = new TurtleShellAlgorithm(draws);
     TurtleShellUI.validator = new UniquenessValidator(draws);
-    TurtleShellUI.renderLast5Draws(draws.slice(-5));
+    TurtleShellUI.renderLastDraws(draws.slice(-9));
     TurtleShellUI.bindEvents();
   }
 
@@ -25,20 +25,21 @@ export class TurtleShellUI {
     });
   }
 
-  static renderLast5Draws(last5) {
+  static renderLastDraws(draws) {
     const container = document.getElementById('turtle-last5-draws');
     if (!container) return;
 
     container.innerHTML = '';
-    const labels = ['Draw -5', 'Draw -4', 'Draw -3', 'Draw -2', 'Latest'];
+    const count = draws.length;
 
-    last5.forEach((draw, i) => {
+    draws.forEach((draw, i) => {
       const row = document.createElement('div');
       row.className = 'turtle-draw-row';
 
+      const labelText = i === count - 1 ? 'Latest' : `Draw -${count - i}`;
       const label = document.createElement('span');
-      label.className = `turtle-draw-label ${i === last5.length - 1 ? 'latest' : ''}`;
-      label.textContent = labels[i];
+      label.className = `turtle-draw-label ${i === count - 1 ? 'latest' : ''}`;
+      label.textContent = labelText;
 
       const balls = document.createElement('div');
       balls.className = 'turtle-draw-balls';
@@ -168,7 +169,7 @@ export class TurtleShellUI {
     if (verification) {
       verification.innerHTML = `
         <p>&#10003; Verified: never drawn in 70+ years of history</p>
-        <p style="margin-top:4px;font-size:0.7rem;">7 convergence layers analyzed across last 5 draws</p>
+        <p style="margin-top:4px;font-size:0.7rem;">7 convergence layers analyzed across last 9 draws</p>
       `;
     }
   }
