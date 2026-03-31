@@ -1272,3 +1272,293 @@ body::before {
   color: var(--color-primary);
   border-bottom-color: var(--color-primary);
 }
+
+/* ===================================================================
+   TURTLE SHELL AI - EXCLUSIVE SECTION STYLES
+   =================================================================== */
+
+.turtle-exclusive-badge {
+  display: inline-block;
+  margin-top: var(--space-sm);
+  padding: 4px 16px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  animation: badgePulse 3s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(245, 158, 11, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.6), 0 0 40px rgba(245, 158, 11, 0.2); }
+}
+
+/* Turtle generate button - special gradient */
+.turtle-btn-generate {
+  background: linear-gradient(135deg, #059669, #047857, #065F46) !important;
+  box-shadow: 0 0 25px rgba(5, 150, 105, 0.3), var(--shadow-md) !important;
+}
+
+.turtle-btn-generate:hover {
+  box-shadow: 0 0 35px rgba(5, 150, 105, 0.5), var(--shadow-xl) !important;
+}
+
+/* Glowing card for turtle results */
+.turtle-card-glow {
+  border: 1px solid var(--color-primary) !important;
+  box-shadow: var(--shadow-lg), 0 0 30px rgba(16, 185, 129, 0.1) !important;
+  animation: turtleGlow 4s ease-in-out infinite;
+}
+
+@keyframes turtleGlow {
+  0%, 100% { box-shadow: var(--shadow-lg), 0 0 15px rgba(16, 185, 129, 0.08); }
+  50% { box-shadow: var(--shadow-lg), 0 0 30px rgba(16, 185, 129, 0.15); }
+}
+
+/* Last 5 draws display */
+.turtle-draws-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.turtle-draw-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-hover);
+  transition: background var(--transition-fast);
+}
+
+.turtle-draw-row:hover {
+  background: var(--color-primary-alpha);
+}
+
+.turtle-draw-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 70px;
+  flex-shrink: 0;
+}
+
+.turtle-draw-label.latest {
+  color: var(--color-primary);
+}
+
+.turtle-draw-balls {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+/* Shell Grid (7x7) */
+.turtle-shell-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.turtle-shell-cell {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: default;
+  transition: all var(--transition-normal);
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.turtle-shell-cell:hover {
+  transform: scale(1.12);
+  z-index: 2;
+}
+
+.turtle-shell-cell .cell-score {
+  font-size: 0.55rem;
+  font-weight: 600;
+  opacity: 0.7;
+  margin-top: 1px;
+}
+
+.turtle-shell-cell.selected {
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);
+  animation: selectedPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes selectedPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
+  50% { box-shadow: 0 0 18px rgba(245, 158, 11, 0.7); }
+}
+
+.turtle-shell-cell .tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-text-primary);
+  color: var(--color-text-inverse);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.65rem;
+  font-weight: 600;
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.turtle-shell-cell:hover .tooltip { display: block; }
+
+.turtle-legend-bar {
+  width: 120px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, #1E293B, #059669, #10B981, #FBBF24, #EF4444);
+}
+
+[data-theme="dark"] .turtle-legend-bar {
+  background: linear-gradient(90deg, #334155, #059669, #10B981, #FBBF24, #EF4444);
+}
+
+/* 7-Layer Agreement */
+.turtle-layers-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+.turtle-layer-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-hover);
+  transition: all var(--transition-normal);
+}
+
+.turtle-layer-item:hover {
+  background: var(--color-primary-alpha);
+}
+
+.turtle-layer-icon {
+  font-size: 1.5rem;
+  width: 40px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.turtle-layer-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.turtle-layer-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.turtle-layer-agreement {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.turtle-layer-bar {
+  width: 80px;
+  height: 8px;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.turtle-layer-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 1s ease-out;
+}
+
+.turtle-layer-pct {
+  font-size: 0.8rem;
+  font-weight: 800;
+  min-width: 42px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Pattern Details */
+.turtle-pattern-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-md);
+}
+
+.turtle-detail-item {
+  text-align: center;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-hover);
+}
+
+.turtle-detail-value {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1.2;
+}
+
+.turtle-detail-label {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* Sector indicators in shell grid */
+.turtle-sector-label {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: var(--space-xs) 0;
+  border-top: 1px dashed var(--color-border);
+  margin-top: var(--space-xs);
+}
+
+.turtle-sector-label:first-child {
+  border-top: none;
+  margin-top: 0;
+}
+
+/* Responsive */
+@media (min-width: 640px) {
+  .turtle-layers-grid { grid-template-columns: 1fr 1fr; }
+  .turtle-shell-cell { font-size: 1.1rem; }
+}
+
+@media (min-width: 1024px) {
+  .turtle-layers-grid { grid-template-columns: repeat(3, 1fr); }
+  .turtle-pattern-details { grid-template-columns: repeat(5, 1fr); }
+}

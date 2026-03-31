@@ -8,6 +8,7 @@ import { BallAnimator } from './ui/ball-animator.js';
 import { Heatmap } from './ui/heatmap.js';
 import { Charts } from './ui/charts.js';
 import { NumberPicker } from './ui/number-picker.js';
+import { TurtleShellUI } from './ui/turtle-shell-ui.js';
 
 class LuckyTurtleApp {
   constructor() {
@@ -48,6 +49,7 @@ class LuckyTurtleApp {
         Heatmap.init(this.draws);
         Charts.init(this.draws);
         NumberPicker.init(this.draws);
+        TurtleShellUI.init(this.draws);
       }, 100);
 
       // 7. Bind events

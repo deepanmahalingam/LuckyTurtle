@@ -63,6 +63,10 @@
         <span class="nav-tab-icon">&#128202;</span>
         Analytics
       </button>
+      <button class="nav-tab" data-tab="turtle">
+        <span class="nav-tab-icon">&#128034;</span>
+        Turtle Shell AI
+      </button>
       <button class="nav-tab" data-tab="picker">
         <span class="nav-tab-icon">&#127922;</span>
         Number Picker
@@ -290,6 +294,83 @@
                   <p>No predictions yet this session</p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TURTLE SHELL AI (EXCLUSIVE) ==================== -->
+      <section id="section-turtle" class="app-section">
+        <div class="section-header">
+          <h2 class="section-title">&#128034; Turtle Shell Pattern AI</h2>
+          <p class="section-desc">Exclusive multi-layer pattern recognition across the last 5 draws. 7 convergence layers mapped onto a hexagonal shell grid.</p>
+          <span class="turtle-exclusive-badge">&#11088; Lucky Turtle Exclusive</span>
+        </div>
+
+        <!-- Last 5 Draws Display -->
+        <div class="card card-glass" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <h3 class="card-title">&#128270; Last 5 Draws Analyzed</h3>
+          </div>
+          <div id="turtle-last5-draws" class="turtle-draws-list"></div>
+        </div>
+
+        <!-- Generate Turtle Shell Prediction -->
+        <button class="btn-generate turtle-btn-generate" id="btn-turtle-predict">
+          <div class="spinner"></div>
+          <span class="btn-text">&#128034; Run Turtle Shell Analysis</span>
+        </button>
+
+        <!-- Shell Grid Visualization -->
+        <div class="card turtle-card-glow" id="turtle-grid-card" style="margin-top: var(--space-xl); display: none;">
+          <div class="card-header">
+            <h3 class="card-title">&#129529; Shell Grid Convergence Map</h3>
+            <span class="card-badge badge-accent" id="turtle-confidence-badge">--%</span>
+          </div>
+          <div id="turtle-shell-grid" class="turtle-shell-grid"></div>
+          <div class="heatmap-legend" style="margin-top: var(--space-md);">
+            <span>Low convergence</span>
+            <div class="turtle-legend-bar"></div>
+            <span>High convergence</span>
+          </div>
+        </div>
+
+        <!-- Prediction Result -->
+        <div class="card turtle-card-glow" id="turtle-result-card" style="margin-top: var(--space-xl); display: none;">
+          <div class="card-header">
+            <h3 class="card-title">&#127919; Turtle Shell Prediction</h3>
+            <span class="card-badge badge-primary" id="turtle-confidence-text">--%</span>
+          </div>
+          <div class="balls-container" id="turtle-prediction-balls" style="padding: var(--space-xl) 0;"></div>
+          <div id="turtle-verification" style="text-align:center;font-size:0.8rem;color:var(--color-text-muted);"></div>
+        </div>
+
+        <!-- 7 Layer Agreement Panel -->
+        <div class="card" id="turtle-layers-card" style="margin-top: var(--space-xl); display: none;">
+          <div class="card-header">
+            <h3 class="card-title">&#128208; 7-Layer Convergence Analysis</h3>
+          </div>
+          <div id="turtle-layers" class="turtle-layers-grid"></div>
+        </div>
+
+        <!-- Pattern Details -->
+        <div class="card" id="turtle-details-card" style="margin-top: var(--space-xl); display: none;">
+          <div class="card-header">
+            <h3 class="card-title">&#128300; Pattern Breakdown</h3>
+          </div>
+          <div id="turtle-pattern-details" class="turtle-pattern-details"></div>
+        </div>
+
+        <!-- History -->
+        <div class="card" id="turtle-history-card" style="margin-top: var(--space-xl);">
+          <div class="card-header">
+            <h3 class="card-title">&#128214; Turtle Shell History</h3>
+            <button class="btn btn-secondary" id="btn-turtle-clear" style="font-size:0.75rem;">Clear</button>
+          </div>
+          <div id="turtle-history" class="prediction-history">
+            <div class="empty-state">
+              <div class="empty-state-icon">&#128034;</div>
+              <p>Run the Turtle Shell Algorithm to see results</p>
             </div>
           </div>
         </div>
