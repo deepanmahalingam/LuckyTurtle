@@ -83,10 +83,12 @@ export class TurtleShellAlgorithm {
 
   /**
    * Main prediction method - runs all 7 layers and combines via consensus
+   * @param {Array} [customDraws] - Optional custom draw window for backtesting
    */
-  predict() {
-    const last9 = this.draws.slice(-9);
-    const last18 = this.draws.slice(-18);
+  predict(customDraws = null) {
+    const sourceDraws = customDraws || this.draws;
+    const last9 = sourceDraws.slice(-9);
+    const last18 = sourceDraws.slice(-18);
 
     // Each layer returns a Map<number, score> for numbers 1-49
     const layerResults = [

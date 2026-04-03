@@ -1,14 +1,19 @@
 import { BallAnimator } from './ball-animator.js';
 import { TurtleShellAlgorithm } from '../ml/turtle-shell-algorithm.js';
+import { TurtleShellValidator } from '../ml/turtle-shell-validator.js';
 import { UniquenessValidator } from '../ml/uniqueness-validator.js';
 
 export class TurtleShellUI {
   static algorithm = null;
+  static shellValidator = null;
   static validator = null;
   static history = [];
+  static draws = [];
 
   static init(draws) {
+    TurtleShellUI.draws = draws;
     TurtleShellUI.algorithm = new TurtleShellAlgorithm(draws);
+    TurtleShellUI.shellValidator = new TurtleShellValidator(draws);
     TurtleShellUI.validator = new UniquenessValidator(draws);
     TurtleShellUI.renderLastDraws(draws.slice(-9));
     TurtleShellUI.bindEvents();
@@ -17,6 +22,9 @@ export class TurtleShellUI {
   static bindEvents() {
     const btn = document.getElementById('btn-turtle-predict');
     if (btn) btn.addEventListener('click', () => TurtleShellUI.runPrediction());
+
+    const validateBtn = document.getElementById('btn-turtle-validate');
+    if (validateBtn) validateBtn.addEventListener('click', () => TurtleShellUI.runValidation());
 
     const clearBtn = document.getElementById('btn-turtle-clear');
     if (clearBtn) clearBtn.addEventListener('click', () => {
@@ -242,6 +250,205 @@ export class TurtleShellUI {
         <div class="turtle-detail-label">Range Spread</div>
       </div>
     `;
+  }
+
+  // ==================== VALIDATION & BACKTEST ====================
+
+  static async runValidation() {
+    const btn = document.getElementById('btn-turtle-validate');
+    if (btn) { btn.classList.add('loading'); btn.disabled = true; }
+
+    await new Promise(r => setTimeout(r, 500));
+
+    try {
+      // Re-create validator with latest draws
+      TurtleShellUI.shellValidator = new TurtleShellValidator(TurtleShellUI.draws);
+      const result = TurtleShellUI.shellValidator.predictWithValidation();
+
+      // Render all validation panels
+      TurtleShellUI.renderBacktestSummary(result.validationReport);
+      TurtleShellUI.renderRoundsDetail(result.validationReport);
+      TurtleShellUI.renderCorrectionBias(result.validationReport);
+      TurtleShellUI.renderCorrectedPrediction(result);
+
+      // Show cards
+      ['turtle-backtest-summary', 'turtle-rounds-card', 'turtle-bias-card', 'turtle-corrected-card']
+        .forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = '';
+        });
+
+      // Also add corrected result to history
+      TurtleShellUI.history.unshift(result);
+      TurtleShellUI.renderHistory();
+
+    } catch (err) {
+      console.error('Turtle Shell validation failed:', err);
+    } finally {
+      if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
+    }
+  }
+
+  static renderBacktestSummary(report) {
+    const container = document.getElementById('turtle-backtest-stats');
+    if (!container) return;
+
+    const hitClass = report.avgHitRate >= 20 ? 'color:var(--color-primary)' : report.avgHitRate >= 10 ? 'color:var(--color-accent)' : 'color:#EF4444';
+
+    container.innerHTML = `
+      <div class="turtle-detail-item">
+        <div class="turtle-detail-value">${report.rounds}</div>
+        <div class="turtle-detail-label">Test Rounds</div>
+      </div>
+      <div class="turtle-detail-item">
+        <div class="turtle-detail-value" style="${hitClass}">${report.avgHitRate}%</div>
+        <div class="turtle-detail-label">Avg Hit Rate</div>
+      </div>
+      <div class="turtle-detail-item">
+        <div class="turtle-detail-value">${report.totalHits}/${report.totalPossible}</div>
+        <div class="turtle-detail-label">Total Hits</div>
+      </div>
+      <div class="turtle-detail-item">
+        <div class="turtle-detail-value">${report.avgProximity}%</div>
+        <div class="turtle-detail-label">Proximity Score</div>
+      </div>
+      <div class="turtle-detail-item">
+        <div class="turtle-detail-value">${report.avgSectorAccuracy}%</div>
+        <div class="turtle-detail-label">Sector Accuracy</div>
+      </div>
+      <div class="turtle-detail-item">
+        <div class="turtle-detail-value" style="color:var(--color-primary)">${report.bestRound.hits}</div>
+        <div class="turtle-detail-label">Best Round Hits</div>
+      </div>
+    `;
+  }
+
+  static renderRoundsDetail(report) {
+    const container = document.getElementById('turtle-rounds-list');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    for (const round of report.roundDetails) {
+      const item = document.createElement('div');
+      item.className = `turtle-round-item hit-${round.hitCount}`;
+
+      const hitClass = round.hitCount >= 3 ? 'good' : round.hitCount >= 1 ? 'ok' : 'poor';
+      const dateStr = round.drawDate ? round.drawDate.toLocaleDateString('de-DE') : '';
+
+      // Build number tags
+      const actualSet = new Set(round.actual);
+      const predictedSet = new Set(round.predicted);
+
+      // Predicted row: hits in green, false positives struck through
+      let predictedTags = round.predicted.map(n =>
+        actualSet.has(n)
+          ? `<span class="num-tag hit">${n}</span>`
+          : `<span class="num-tag fp">${n}</span>`
+      ).join('');
+
+      // Actual row: hits in green, misses in red
+      let actualTags = round.actual.map(n =>
+        predictedSet.has(n)
+          ? `<span class="num-tag hit">${n}</span>`
+          : `<span class="num-tag miss">${n}</span>`
+      ).join('');
+
+      item.innerHTML = `
+        <div class="turtle-round-header">
+          <span class="turtle-round-label">Round ${round.round + 1} ${dateStr ? '&mdash; ' + dateStr : ''}</span>
+          <span class="turtle-round-hits ${hitClass}">${round.hitCount}/6 hits</span>
+        </div>
+        <div class="turtle-round-numbers">
+          <span class="turtle-round-row-label">Predicted:</span>
+          ${predictedTags}
+        </div>
+        <div class="turtle-round-numbers" style="margin-top:4px;">
+          <span class="turtle-round-row-label">Actual:</span>
+          ${actualTags}
+        </div>
+        <div style="font-size:0.65rem;color:var(--color-text-muted);margin-top:6px;">
+          Proximity: ${round.proximityScore}% &bull; Sectors: ${round.sectorHits} matched
+        </div>
+      `;
+
+      container.appendChild(item);
+    }
+  }
+
+  static renderCorrectionBias(report) {
+    const boostContainer = document.getElementById('turtle-boost-list');
+    const suppressContainer = document.getElementById('turtle-suppress-list');
+    if (!boostContainer || !suppressContainer) return;
+
+    // Find max bias for bar scaling
+    const allBias = [...report.boostCandidates, ...report.suppressCandidates];
+    const maxBias = Math.max(...allBias.map(c => Math.abs(parseFloat(c.bias))), 0.1);
+
+    // Render boost candidates
+    boostContainer.innerHTML = '';
+    if (report.boostCandidates.length === 0) {
+      boostContainer.innerHTML = '<p style="font-size:0.75rem;color:var(--color-text-muted);">No boost candidates found</p>';
+    } else {
+      for (const c of report.boostCandidates) {
+        const pct = Math.round((Math.abs(parseFloat(c.bias)) / maxBias) * 100);
+        boostContainer.innerHTML += `
+          <div class="turtle-bias-item">
+            <span class="turtle-bias-num" style="color:#10B981;">#${c.number}</span>
+            <div class="turtle-bias-bar">
+              <div class="turtle-bias-fill boost" style="width:${pct}%"></div>
+            </div>
+            <span class="turtle-bias-val">+${c.bias}</span>
+          </div>
+        `;
+      }
+    }
+
+    // Render suppress candidates
+    suppressContainer.innerHTML = '';
+    if (report.suppressCandidates.length === 0) {
+      suppressContainer.innerHTML = '<p style="font-size:0.75rem;color:var(--color-text-muted);">No suppress candidates found</p>';
+    } else {
+      for (const c of report.suppressCandidates) {
+        const pct = Math.round((Math.abs(parseFloat(c.bias)) / maxBias) * 100);
+        suppressContainer.innerHTML += `
+          <div class="turtle-bias-item">
+            <span class="turtle-bias-num" style="color:#EF4444;">#${c.number}</span>
+            <div class="turtle-bias-bar">
+              <div class="turtle-bias-fill suppress" style="width:${pct}%"></div>
+            </div>
+            <span class="turtle-bias-val">${c.bias}</span>
+          </div>
+        `;
+      }
+    }
+  }
+
+  static renderCorrectedPrediction(result) {
+    const container = document.getElementById('turtle-corrected-balls');
+    const confBadge = document.getElementById('turtle-corrected-confidence');
+    const info = document.getElementById('turtle-corrected-info');
+    if (!container) return;
+
+    BallAnimator.renderBallsWithDelay(container, result.numbers, 200);
+
+    if (confBadge) confBadge.textContent = result.confidence + '%';
+
+    if (info) {
+      if (result.correctionApplied) {
+        const orig = result.originalNumbers.join(', ');
+        info.innerHTML = `
+          <div class="turtle-correction-diff">
+            <span>Original: <strong>${orig}</strong></span>
+            <span class="turtle-correction-arrow">&#10140;</span>
+            <span>Corrected: <strong>${result.numbers.join(', ')}</strong></span>
+          </div>
+          <p style="margin-top:8px;font-size:0.7rem;">&#10003; Corrections applied from backtest learning</p>
+        `;
+      } else {
+        info.innerHTML = '<p>&#10003; No corrections needed &mdash; original prediction was optimal</p>';
+      }
+    }
   }
 
   static renderHistory() {

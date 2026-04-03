@@ -361,6 +361,66 @@
           <div id="turtle-pattern-details" class="turtle-pattern-details"></div>
         </div>
 
+        <!-- ===== VALIDATION & BACKTESTING SECTION ===== -->
+        <div class="card turtle-card-glow" id="turtle-validation-card" style="margin-top: var(--space-xl);">
+          <div class="card-header">
+            <h3 class="card-title">&#128300; Sliding Window Backtest</h3>
+            <span class="turtle-exclusive-badge" style="font-size:0.65rem;">&#9889; Self-Learning</span>
+          </div>
+          <p style="font-size:0.8rem;color:var(--color-text-muted);margin-bottom:var(--space-lg);line-height:1.5;">
+            Takes the last 19 draws, runs sliding window predictions using a 9-draw window, compares each prediction against the actual next draw, and learns correction patterns to improve accuracy.
+          </p>
+          <button class="btn-generate turtle-btn-generate" id="btn-turtle-validate" style="margin-bottom:var(--space-xl);">
+            <div class="spinner"></div>
+            <span class="btn-text">&#128034; Run Backtest &amp; Corrected Prediction</span>
+          </button>
+
+          <!-- Backtest Summary Stats -->
+          <div id="turtle-backtest-summary" style="display:none;">
+            <div class="turtle-pattern-details" id="turtle-backtest-stats"></div>
+          </div>
+        </div>
+
+        <!-- Round-by-Round Results -->
+        <div class="card" id="turtle-rounds-card" style="margin-top: var(--space-xl); display: none;">
+          <div class="card-header">
+            <h3 class="card-title">&#128203; Round-by-Round Comparison</h3>
+          </div>
+          <div id="turtle-rounds-list" class="turtle-rounds-list"></div>
+        </div>
+
+        <!-- Correction Bias Visualization -->
+        <div class="card" id="turtle-bias-card" style="margin-top: var(--space-xl); display: none;">
+          <div class="card-header">
+            <h3 class="card-title">&#127919; Learned Correction Bias</h3>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-lg);" id="turtle-bias-container">
+            <div>
+              <h4 style="font-size:0.85rem;font-weight:700;color:var(--color-primary);margin-bottom:var(--space-sm);">&#128314; Boost Candidates</h4>
+              <p style="font-size:0.7rem;color:var(--color-text-muted);margin-bottom:var(--space-md);">Numbers frequently missed &mdash; should appear more often</p>
+              <div id="turtle-boost-list"></div>
+            </div>
+            <div>
+              <h4 style="font-size:0.85rem;font-weight:700;color:var(--color-danger, #EF4444);margin-bottom:var(--space-sm);">&#128315; Suppress Candidates</h4>
+              <p style="font-size:0.7rem;color:var(--color-text-muted);margin-bottom:var(--space-md);">Numbers frequently false-positive &mdash; over-predicted</p>
+              <div id="turtle-suppress-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Corrected Prediction -->
+        <div class="card turtle-card-glow" id="turtle-corrected-card" style="margin-top: var(--space-xl); display: none;">
+          <div class="card-header">
+            <h3 class="card-title">&#129504; Corrected Prediction</h3>
+            <span class="card-badge badge-accent" id="turtle-corrected-confidence">--%</span>
+          </div>
+          <div style="text-align:center;padding:var(--space-md) 0;">
+            <p style="font-size:0.75rem;color:var(--color-text-muted);margin-bottom:var(--space-md);">Numbers adjusted using backtest correction bias</p>
+          </div>
+          <div class="balls-container" id="turtle-corrected-balls" style="padding: var(--space-lg) 0;"></div>
+          <div id="turtle-corrected-info" style="text-align:center;font-size:0.8rem;color:var(--color-text-muted);padding-bottom:var(--space-md);"></div>
+        </div>
+
         <!-- History -->
         <div class="card" id="turtle-history-card" style="margin-top: var(--space-xl);">
           <div class="card-header">
